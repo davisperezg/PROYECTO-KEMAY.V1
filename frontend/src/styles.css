@@ -1,0 +1,168 @@
+/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/pink-bluegrey.css';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-primary{
+  background: #181818 !important;
+}
+
+/**INPUT SEARCH**/
+.search-div{
+  margin:10px;
+}
+.search-form-field{
+  width: 60%;
+  margin-left: 10px;
+  padding: 5px 10px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+}
+.search-form-field div.mat-form-field-underline{
+  display: none;
+}
+.search-form-field div.mat-form-field-infix{
+  border-top: 0px;
+}
+.search-form-field div.mat-form-field-wrapper{
+  padding-bottom: 0px;
+}
+.search-form-field div.mat-form-field-suffix button{
+  height: 32px;
+  width: 32px;
+}
+.mat-paginator-page-size-select{
+  background: #424242 !important;
+}
+.mat-elevation-z8{
+  padding: 20px;
+}
+.tabs-seccion{
+  width: 100%;height: 400px;overflow: auto;
+}
+.seccion-parts{
+  width: 50%;height: 100%;float: left;
+}
+.example-form-field {
+  width: 200px;
+}
+
+.hide{
+  display: none;
+}
+mat-footer-row mat-footer-cell{
+  justify-content: center;
+  font-style: italic;
+}
+
+.seccion{
+  margin-left: 10px;
+  margin-right: 10px;
+  height: 400px !important;
+  overflow: auto;
+  margin-top: 10px;
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+/**CSS**/
+.pd10{
+  padding: 10px;
+}
+.border{
+  border:1px solid #494949;
+}
+.card-section{
+  width: 49%;height: 100%;float: left;overflow: hidden;
+}
+.card{
+  width: 100%;height: 100%;float: left;
+}
+.title-card{
+  height: 20px;
+  width: 100%;
+}
+.section{
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  height: 500px;
+  overflow:auto;
+  /*Estilos estándar experimentales (Principalmente Firefox)*/
+  scrollbar-color: rgba(0, 0, 0, .5) rgba(0, 0, 0, 0);
+  scrollbar-width: thin;
+}
+.section-header{
+  height: 300px;
+}
+.section-body{
+  /**
+   overflow: auto;
+  margin-top: 10px;
+  **/
+  height: auto;
+}
+.mlf15{
+  margin-left: 15px;
+}
+.mlf10{
+  margin-left: 10px;
+}
+.lf2{
+  margin-left: 2px;
+}
+.mtp10{
+  margin-top: 10px;
+}
+
+.floatr{
+  float: right;
+}
+.body-header{
+  margin-top: 10px;
+  padding: 10px;
+  margin-left: 10px;
+}
+.search-input-section{
+  position: absolute;
+  right: 0.5px;
+  top: 1px;
+}
+.pointer{
+  cursor: pointer;
+}
+/**PERSONALIZA SCROLL*/
+/* Estilos del contenedor */
+.section::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+.section::-webkit-scrollbar:vertical {
+  width:10px;
+}
+
+.section::-webkit-scrollbar-button:increment,.section::-webkit-scrollbar-button {
+  display: none;
+}
+
+.section::-webkit-scrollbar:horizontal {
+  height: 10px;
+}
+
+.section::-webkit-scrollbar-thumb {
+  background-color: #797979;
+  border-radius: 20px;
+  border: 2px solid #303030;
+}
+
+.section::-webkit-scrollbar-track {
+  border-radius: 10px;
+}

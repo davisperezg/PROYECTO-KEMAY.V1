@@ -1,0 +1,67 @@
+<div class="seccion">
+  <div class="search-div" >
+    <button style="margin-left: 10px;" mat-raised-button (click)="abrirNuevoProducto()">
+      <mat-icon>shopping_basket</mat-icon> Productos
+    </button>
+    <mat-form-field class="search-form-field" >
+      <input matInput [(ngModel)]="searchKey" placeholder="Buscar" autocomplete="off" (keyup)="applyFilterInventario()">
+      <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey" (click)="onSearchClearInventario()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <button color="warn" (click)="generarPDF()" style="float: right;margin-right: 10px;" mat-raised-button>
+      Exportar <mat-icon>picture_as_pdf</mat-icon>
+    </button>
+  </div>
+  <div class="mat-elevation-z8" >
+    <mat-table #InventarioSort="matSort" [dataSource]="listDataInventario"  matSort>
+        <ng-container matColumnDef="producto">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Producto </mat-header-cell>
+          <mat-cell *matCellDef="let element"
+          style="cursor: pointer;font-size: 12px;"
+          (click)="editPrecio(element)"> {{element.producto}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="cantidad">
+          <mat-header-cell style="justify-content: center;" *matHeaderCellDef mat-sort-header> Cantidad </mat-header-cell>
+          <mat-cell *matCellDef="let element"
+          style="justify-content: center;cursor: pointer;font-size: 12px;"
+          (click)="editPrecio(element)"> {{element.cantidad}} Unidades </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="precio">
+          <mat-header-cell style="justify-content: center;" *matHeaderCellDef mat-sort-header> Precio </mat-header-cell>
+          <mat-cell *matCellDef="let element"
+          style="justify-content: center;cursor: pointer;font-size: 12px;"
+          (click)="editPrecio(element)"> S/.{{element.precio}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="opciones">
+          <mat-header-cell *matHeaderCellDef style="justify-content: center;"> Opciones </mat-header-cell>
+          <mat-cell *matCellDef="let row" style="justify-content: center;">
+            <button mat-icon-button color="warn" (click)="deleteInventario(row.id_producto)">
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+          </mat-cell>
+        </ng-container>
+      <ng-container matColumnDef="loading">
+        <mat-footer-cell *matFooterCellDef colspan="6">
+          Cargando data...
+        </mat-footer-cell>
+      </ng-container>
+      <ng-container matColumnDef="noData">
+        <mat-footer-cell *matFooterCellDef colspan="6">
+          No Data.
+        </mat-footer-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="columnaInventario"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: columnaInventario;"></mat-row>
+      <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':listDataInventario!=null}"></mat-footer-row>
+      <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide':!(listDataInventario!=null && listDataInventario.data.length==0)}"></mat-footer-row>
+
+    </mat-table>
+  </div>
+</div>
+
+<mat-paginator class="mat-table-page" #MatPaginatoInventario="matPaginator" matPaginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons ></mat-paginator>
+

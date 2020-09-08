@@ -1,0 +1,20 @@
+h1{
+  padding: 10px;
+  text-align: left;
+  margin-left: 45px;
+  font-size: 25px;
+  letter-spacing: 0.7px;
+}
+.title-body{
+  height: 50px;
+}
+.formclass{
+  text-align: center;
+  margin-top: 50px;
+  margin-top: 20px;
+}
+.mat-form-field{
+  margin-top: 10px;
+  width: 90% !important;
+  margin-left: 0% !important;
+}

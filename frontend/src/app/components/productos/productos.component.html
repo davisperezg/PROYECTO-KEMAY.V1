@@ -1,0 +1,347 @@
+<mat-tab-group mat-align-tabs="center">
+  <mat-tab label="Productos">
+    <div class="tabs-seccion">
+      <div class="search-div" >
+        <button (click)="abrirNuevoProducto()" style="margin-left: 10px;" mat-raised-button>
+          <mat-icon>add</mat-icon>Nuevo
+        </button>
+        <mat-form-field class="search-form-field" >
+          <input matInput [(ngModel)]="searchKey" placeholder="Buscar" autocomplete="off" (keyup)="applyFilterProducto()">
+          <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey" (click)="onSearchClearProducto()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <button color="warn" (click)="generarPDF()" style="float: right;margin-right: 10px;" mat-raised-button>
+          Exportar <mat-icon>picture_as_pdf</mat-icon>
+        </button>
+      </div>
+      <div class="mat-elevation-z8" >
+        <mat-table #ProductoSort="matSort" [dataSource]="listDataProducto"  matSort id="table">
+
+          <ng-container matColumnDef="id_producto">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> COD </mat-header-cell>
+            <mat-cell *matCellDef="let element"
+            style="cursor: pointer;font-size: 12px;"
+            (click)="editProducto(element)"> {{element.id_producto}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="categoria">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Categoría </mat-header-cell>
+              <mat-cell *matCellDef="let element"
+              style="cursor: pointer;font-size: 12px;"
+              (click)="editProducto(element)"> {{element.categoria}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="marca">
+              <mat-header-cell style="justify-content: center;" *matHeaderCellDef mat-sort-header> Marca </mat-header-cell>
+              <mat-cell *matCellDef="let element"
+              style="justify-content: center;cursor: pointer;font-size: 12px;"
+              (click)="editProducto(element)"> {{element.marca}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="tipo_producto">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </mat-header-cell>
+              <mat-cell *matCellDef="let element"
+              style="cursor: pointer;font-size: 12px;"
+              (click)="editProducto(element)"> {{element.tipo_producto}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="descripcion">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Producto/Servicio</mat-header-cell>
+              <mat-cell *matCellDef="let element"
+              style="cursor: pointer;font-size: 12px;"
+              (click)="editProducto(element)"> {{element.descripcion}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="modelo">
+              <mat-header-cell style="justify-content: center;" *matHeaderCellDef mat-sort-header> Modelo </mat-header-cell>
+              <mat-cell *matCellDef="let element"
+              style="justify-content: center;cursor: pointer;font-size: 12px;"
+              (click)="editProducto(element)"> {{element.modelo}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="precio">
+              <mat-header-cell style="justify-content: center;" *matHeaderCellDef mat-sort-header> Precio </mat-header-cell>
+              <mat-cell *matCellDef="let element"
+              style="cursor: pointer;justify-content: center !important;font-size: 12px;"
+              (click)="editProducto(element)">{{element.precio | currency:"S/"}}</mat-cell>
+            </ng-container>
+
+            <!-- Name Column [class.table-active]="element == categoriaSeleccion"-->
+            <ng-container matColumnDef="opciones">
+              <mat-header-cell *matHeaderCellDef style="justify-content: center;"> Opciones </mat-header-cell>
+              <mat-cell *matCellDef="let row" style="justify-content: center;">
+                <button mat-icon-button  (click)="moreDetails(row)">
+                  <mat-icon>announcement</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="deleteProducto(row.id_producto)">
+                    <mat-icon>delete_outline</mat-icon>
+                  </button>
+              </mat-cell>
+            </ng-container>
+          <ng-container matColumnDef="loading">
+            <mat-footer-cell *matFooterCellDef colspan="6">
+              Cargando data...
+            </mat-footer-cell>
+          </ng-container>
+          <ng-container matColumnDef="noData">
+            <mat-footer-cell *matFooterCellDef colspan="6">
+              No Data.
+            </mat-footer-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="columnaProducto"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: columnaProducto;"></mat-row>
+          <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':listDataProducto!=null}"></mat-footer-row>
+          <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide':!(listDataProducto!=null && listDataProducto.data.length==0)}"></mat-footer-row>
+
+        </mat-table>
+      </div>
+    </div>
+    <mat-paginator class="mat-table-page" #MatPaginatorProducto="matPaginator" matPaginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons ></mat-paginator>
+
+  </mat-tab>
+  <mat-tab label="Categoría">
+    <div class="tabs-seccion">
+      <div class="seccion-parts">
+        <form #categoriaForm ="ngForm" (ngSubmit)="addCategoria(categoriaForm)">
+          <input type="hidden" name="id_categoria" #id_categoria="ngModel" [(ngModel)]="categoriaSeleccion.id_categoria">
+          <mat-form-field color="warn" class="example-form-field"
+          style="margin-top: 10px;margin-left: 10px;">
+            <mat-label>Nombre</mat-label>
+            <input matInput type="text" name="nombre" #nombre="ngModel" [(ngModel)]="categoriaSeleccion.nombre" autocomplete="off">
+          </mat-form-field>
+          <br>
+          <button type="submit" mat-raised-button style="margin-left: 10px;">Registrar</button>
+          <button type="button" style="margin-left: 10px;" color="warn" mat-raised-button (click)="resetFormCategoria(categoriaForm)" class="btn btn-plomo">
+            Limpiar
+          </button>
+        </form>
+
+      </div>
+      <div class="seccion-parts">
+        <div class="search-div" >
+          <mat-form-field class="search-form-field" >
+            <input matInput [(ngModel)]="searchKey" placeholder="Buscar" autocomplete="off" (keyup)="applyFilterCategoria()">
+            <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey" (click)="onSearchClear()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="mat-elevation-z8" >
+          <mat-table #sBSort="matSort" [dataSource]="listDataCategoria"  matSort>
+
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="nombre">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Categoría </mat-header-cell>
+              <mat-cell *matCellDef="let element"
+              style="cursor: pointer;"
+              (click)="editCategoria(element)"> {{element.nombre}} </mat-cell>
+            </ng-container>
+
+            <!-- Name Column [class.table-active]="element == categoriaSeleccion"-->
+            <ng-container matColumnDef="opciones">
+              <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>
+              <mat-cell *matCellDef="let row" >
+                  <button mat-icon-button color="warn" (click)="deleteCategoria(row.id_categoria, categoriaForm)">
+                    <mat-icon>delete_outline</mat-icon>
+                  </button>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="loading">
+              <mat-footer-cell *matFooterCellDef colspan="6">
+                Cargando data...
+              </mat-footer-cell>
+            </ng-container>
+            <ng-container matColumnDef="noData">
+              <mat-footer-cell *matFooterCellDef colspan="6">
+                No Data.
+              </mat-footer-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="columnaCategoria"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: columnaCategoria;"></mat-row>
+            <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':listDataCategoria!=null}"></mat-footer-row>
+            <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide':!(listDataCategoria!=null && listDataCategoria.data.length==0)}"></mat-footer-row>
+
+          </mat-table>
+        </div>
+      </div>
+    </div>
+    <mat-paginator class="mat-table-page" #MatPaginatorCategoria="matPaginator" matPaginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons ></mat-paginator>
+
+  </mat-tab>
+  <mat-tab label="Tipo P/S" >
+    <div class="tabs-seccion">
+      <div class="seccion-parts">
+        <form #tipoform ="ngForm" (ngSubmit)="addTipo(tipoform)">
+          <input type="hidden" #id_tipo_producto="ngModel" [(ngModel)]="tipoSeleccion.id_tipo_producto" name="id_tipo_producto">
+          <mat-form-field color="warn" style="margin-left: 10px;margin-top: 10px;width: 200px;">
+            <mat-label>Categoría</mat-label>
+            <mat-select  id="id_categoria" name="id_categoria"
+            [(ngModel)]="tipoSeleccion.id_categoria">
+              <mat-option *ngFor="let cat of categorias" [value]="cat.id_categoria">
+                {{cat.nombre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br>
+          <mat-form-field color="warn" class="example-form-field"
+          style="margin-top: 10px;margin-left: 10px;">
+            <mat-label>Tipo de producto ó servicio</mat-label>
+            <input matInput type="text" name="nombre" #nombre="ngModel" [(ngModel)]="tipoSeleccion.nombre" autocomplete="off">
+          </mat-form-field>
+          <br>
+          <button type="submit" mat-raised-button style="margin-left: 10px;">Registrar</button>
+          <button type="button" style="margin-left: 10px;" color="warn" mat-raised-button (click)="resetFormTipo(tipoform)" class="btn btn-plomo">
+            Limpiar
+          </button>
+        </form>
+      </div>
+      <div class="seccion-parts">
+        <div class="search-div" >
+          <mat-form-field class="search-form-field" >
+            <input matInput [(ngModel)]="searchKey" placeholder="Buscar" autocomplete="off" (keyup)="applyFilterTipo()">
+            <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey" (click)="onSearchClearTipo()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="mat-elevation-z8" >
+          <mat-table #TipoSort="matSort" [dataSource]="listDataTipo"  matSort>
+            <!-- Position Column -->
+            <ng-container matColumnDef="categoria">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Categoría </mat-header-cell>
+              <mat-cell *matCellDef="let element"
+              style="cursor: pointer;"
+              (click)="editTipo(element)"> {{element.categoria}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="nombre">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Tipo de producto </mat-header-cell>
+              <mat-cell *matCellDef="let element"
+              style="cursor: pointer;"
+              (click)="editTipo(element)"> {{element.nombre}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="opciones">
+                            <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>
+                            <mat-cell *matCellDef="let row" >
+                                <button mat-icon-button color="warn" (click)="deleteTipo(row.id_tipo_producto, tipoform)">
+                                  <mat-icon>delete_outline</mat-icon>
+                                </button>
+                            </mat-cell>
+                          </ng-container>
+                          <ng-container matColumnDef="loading">
+                            <mat-footer-cell *matFooterCellDef colspan="6">
+                              Cargando data...
+                            </mat-footer-cell>
+                          </ng-container>
+                          <ng-container matColumnDef="noData">
+                            <mat-footer-cell *matFooterCellDef colspan="6">
+                              No Data.
+                            </mat-footer-cell>
+                          </ng-container>
+                          <mat-header-row *matHeaderRowDef="columnaTipo"></mat-header-row>
+                          <mat-row *matRowDef="let row; columns: columnaTipo;"></mat-row>
+                          <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':listDataTipo!=null}"></mat-footer-row>
+                          <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide':!(listDataTipo!=null && listDataTipo.data.length==0)}"></mat-footer-row>
+
+          </mat-table>
+        </div>
+      </div>
+    </div>
+    <mat-paginator  #MatPaginatorTipo="matPaginator" matPaginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons ></mat-paginator>
+
+  </mat-tab>
+  <mat-tab label="Marca">
+    <div class="tabs-seccion">
+      <div class="seccion-parts">
+        <form #marcaForm ="ngForm" (ngSubmit)="addMarca(marcaForm)">
+          <input type="hidden" #id_marca="ngModel" [(ngModel)]="marcaSeleccion.id_marca" name="id_marca">
+          <mat-form-field color="warn" style="margin-left: 10px;margin-top: 10px;width: 200px;">
+            <mat-label>Tipo de producto</mat-label>
+            <mat-select  id="id_tipo" name="id_tipo_producto"
+            [(ngModel)]="marcaSeleccion.id_tipo_producto">
+              <mat-option *ngFor="let tip of tipos" [value]="tip.id_tipo_producto">
+                {{tip.nombre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br>
+          <mat-form-field color="warn" class="example-form-field"
+          style="margin-top: 10px;margin-left: 10px;">
+            <mat-label>Marca / Servicio</mat-label>
+            <input matInput type="text" name="nombre" #nombre="ngModel" [(ngModel)]="marcaSeleccion.nombre" autocomplete="off">
+            <mat-hint align="start" style="color: #f44336 !important;">Si es un servicio ingresar 'KTECH'</mat-hint>
+
+          </mat-form-field>
+          <br><br>
+          <button type="submit" mat-raised-button style="margin-left: 10px;">Registrar</button>
+          <button type="button" style="margin-left: 10px;" color="warn" mat-raised-button (click)="resetFormMarca(marcaForm)">
+            Limpiar
+          </button>
+        </form>
+      </div>
+      <div class="seccion-parts">
+        <div class="search-div">
+          <mat-form-field class="search-form-field">
+            <input matInput [(ngModel)]="searchKey" placeholder="Buscar" autocomplete="off" (keyup)="applyFilterMarca()">
+            <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey" (click)="onSearchClearMarca()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <div class="mat-elevation-z8" >
+            <mat-table #MarcaSort="matSort" [dataSource]="listDataMarca"  matSort>
+              <!-- Position Column -->
+              <ng-container matColumnDef="tipo_producto">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Tipo de producto </mat-header-cell>
+                <mat-cell *matCellDef="let element"
+                style="cursor: pointer;"
+                (click)="editMarca(element)"> {{element.tipo_producto}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="nombre">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Marca </mat-header-cell>
+                <mat-cell *matCellDef="let element"
+                style="cursor: pointer;"
+                (click)="editMarca(element)"> {{element.nombre}} </mat-cell>
+              </ng-container>
+
+              <!-- Name Column [class.table-active]="element == categoriaSeleccion"-->
+              <ng-container matColumnDef="opciones">
+                <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>
+                <mat-cell *matCellDef="let row" >
+                    <button mat-icon-button color="warn" (click)="deleteMarca(row.id_marca,marcaForm)">
+                      <mat-icon>delete_outline</mat-icon>
+                    </button>
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="loading">
+                <mat-footer-cell *matFooterCellDef colspan="6">
+                  Cargando data...
+                </mat-footer-cell>
+              </ng-container>
+              <ng-container matColumnDef="noData">
+                <mat-footer-cell *matFooterCellDef colspan="6">
+                  No Data.
+                </mat-footer-cell>
+              </ng-container>
+              <mat-header-row *matHeaderRowDef="columnaMarca"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: columnaMarca;"></mat-row>
+              <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':listDataMarca!=null}"></mat-footer-row>
+              <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide':!(listDataMarca!=null && listDataMarca.data.length==0)}"></mat-footer-row>
+
+            </mat-table>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <mat-paginator  #MatPaginatorMarca="matPaginator" matPaginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons ></mat-paginator>
+
+  </mat-tab>
+</mat-tab-group>
+

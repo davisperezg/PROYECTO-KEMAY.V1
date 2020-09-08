@@ -1,0 +1,34 @@
+<div class="container p-5">
+  <div class="row">
+    <div class="col-md-4 mx-auto">
+      <div class="card">
+        <div class="card-header">
+          Acceso al Sistema
+        </div>
+        <div class="card-body">
+          <form  (submit)="login()" >
+            <div class="form-group">
+              <input type="text"  [(ngModel)]="user.email" name="email" class="form-control" placeholder="Email" autofocus>
+            </div>
+            <div class="form-group">
+              <input type="password"  [(ngModel)]="user.contrasenia" name="password" class="form-control" placeholder="Contraseña" >
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+              Ingresar
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<footer class="page-footer">
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">Desarrollado por:
+    <a href="#" target="_blank"> Davis Pérez</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+
+>

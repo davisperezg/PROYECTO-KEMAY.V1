@@ -24,10 +24,8 @@ const strategy = new estrategiaJWT(options, (payload, done) => {
     connection.query('SELECT * FROM usuarios u INNER JOIN rol r ON u.id_rol = r.id_rol WHERE id_usuarios = ?', [payload.sub],(err, result) => {
         if(err) return console.log('ERROR EN ESTRATEGIA JWT')
         if (result) {
-            console.log('ERROR EN PASSPORT RESULT')
            return done(null, result)
         }else{
-            console.log('ERROR EN PASSPORT')
            return done(null, false)
         }
     }) 
