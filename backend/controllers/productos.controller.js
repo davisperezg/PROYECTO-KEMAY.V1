@@ -75,7 +75,6 @@ productosController.crearProducto =  async (req, res) => {
     //console.log(req.body)
     req.getConnection((err, connection) => {
     //validaciones
-
     const query = connection.query('INSERT INTO producto set ?', data, (err, producto) => {
         if(err){
             return res.status(400).json('Problema interno, intente más tarde')
@@ -88,6 +87,19 @@ productosController.crearProducto =  async (req, res) => {
   })
     
 }
+productosController.actualizarProducto = async function(req, res) {
+    const { id } = req.params;
+    const newProducto = req.body;
+    req.getConnection((err, conn) => {
+        //validaciones
+
+        conn.query('UPDATE producto set ? where id_producto = ?', [newProducto, id], (err, rows) => {
+            console.log(rows)
+            return res.status(200).json('Producto Actualizado');
+        });
+    });
+}
+
 
 productosController.obtenerProducto = async function(req, res) {
     const { id } = req.params;
@@ -101,18 +113,6 @@ productosController.obtenerProducto = async function(req, res) {
   })
 }
 
-productosController.actualizarProducto = async function(req, res) {
-    const { id } = req.params;
-    const newProducto = req.body;
-    req.getConnection((err, conn) => {
-        //validaciones
-
-        conn.query('UPDATE producto set ? where id_producto = ?', [newProducto, id], (err, rows) => {
-            console.log(rows)
-            return res.status(200).json('Producto Actualizado');
-        });
-    });
-}
 
 productosController.eliminarProducto = async function(req, res) {
     const { id } = req.params;

@@ -25,6 +25,7 @@
     "core-js": "^3.6.5",
     "jspdf": "^1.5.3",
     "jspdf-autotable": "^3.5.9",
+    "moment": "^2.29.0",
     "request": "^2.79.0",
     "rxjs": "~6.5.5",
     "sweetalert2": "^9.17.1",

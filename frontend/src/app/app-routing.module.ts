@@ -11,7 +11,10 @@ import { AuthGuard } from '../app/guard/auth.guard'
 import { InventarioComponent } from './components/inventario/inventario.component'
 import { CotizacionComponent } from './components/cotizacion/cotizacion.component';
 import { PreciosComponent } from './components/precios/precios/precios.component';
-
+import { ClientesgpsComponent } from './components/clientes/clientesgps/clientesgps.component';
+import { RenovacionesComponent } from './components/renovaciones/renovaciones.component';
+import { VencidosComponent } from './components/vencidos/vencidos.component';
+import { CajaComponent } from './components/caja/caja.component';
 const routes: Routes = [
   {
     path:'',
@@ -42,6 +45,26 @@ const routes: Routes = [
       component: PreciosComponent,
       canActivate: [AuthGuard]
      },
+     {
+      path: 'clientes',
+      component: ClientesgpsComponent,
+      canActivate: [AuthGuard]
+     },
+     {
+      path: 'renovaciones',
+      component: RenovacionesComponent,
+      canActivate: [AuthGuard]
+     },
+     {
+      path: 'vencidos',
+      component: VencidosComponent,
+      canActivate: [AuthGuard]
+     },
+     {
+      path: 'caja',
+      component: CajaComponent,
+      canActivate: [AuthGuard]
+     },
     ],
     canActivate:[AuthGuard]
   },
@@ -58,7 +81,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes),
-RouterModule.forChild(routes)],
+  RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

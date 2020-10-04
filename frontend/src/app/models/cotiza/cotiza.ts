@@ -22,4 +22,6 @@ export class Cotiza {
   clientes:Clientes;
   id_clientes:string;
   confirmado:String
+  nota:string
+
 }

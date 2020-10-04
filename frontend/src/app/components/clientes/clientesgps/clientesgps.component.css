@@ -1,0 +1,40 @@
+.mat-form-field {
+  margin-top: 16px;
+}
+
+.mat-stepper-horizontal{
+  background:  #303030 !important;
+}
+
+.conteiner-page::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+.conteiner-page::-webkit-scrollbar:vertical {
+  width:10px;
+}
+
+.conteiner-page::-webkit-scrollbar-button:increment,.conteiner-page::-webkit-scrollbar-button {
+  display: none;
+}
+
+.conteiner-page::-webkit-scrollbar:horizontal {
+  height: 10px;
+}
+
+.conteiner-page::-webkit-scrollbar-thumb {
+  background-color: #797979;
+  border-radius: 20px;
+  border: 2px solid #303030;
+}
+
+.conteiner-page::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+.inputtwo{
+  margin-left: 10px;
+  width: 45%;
+}
+.cincuenta{
+  width: 50%;
+}

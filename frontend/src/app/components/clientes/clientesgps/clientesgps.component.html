@@ -1,0 +1,668 @@
+
+<div class="conteiner-page" style="    overflow: auto;
+width: 100%;
+height: 100%;">
+<mat-tab-group mat-align-tabs="center" style="background: #303030 !important;margin-top: 10px;">
+  <mat-tab label="Cliente">
+      <ng-container *ngIf="!dataExiste; else existeData" >
+        <mat-horizontal-stepper linear  #stepper id="stepper">
+              <mat-step [stepControl]="firstFormGroup" [editable]="isEditable">
+              <form [formGroup]="firstFormGroup" #clienteForm ="ngForm" (ngSubmit)="addCliente(clienteForm)">
+                <ng-template matStepLabel>Datos cliente</ng-template>
+                <mat-form-field  style="width: 100%;" color="warn">
+                  <mat-label>Documento</mat-label>
+                  <mat-select #options formControlName="tipIden" name="tipIden" id="tipIden">
+                    <mat-option  value="1">
+                      DNI
+                    </mat-option>
+                    <mat-option  value="2">
+                      RUC
+                    </mat-option>
+                    <mat-option  value="3">
+                      OTROS
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field color="warn" class="example-form-field"
+                    style="width:80%;">
+                      <mat-label>Número de Documento</mat-label>
+                      <input (keyup)="onKeyUp()" matInput formControlName="numIden" type="text" id="param"  name="numIden" autocomplete="off">
+                    </mat-form-field>
+                    <button style="position: static;
+                    margin-left: 10px;" type="button" mat-raised-button (click)="consultDatos(clienteForm)">Consultar</button>
+          <ng-container *ngIf="valorConsulta == 'uno';">
+            <mat-form-field color="warn" class="example-form-field"
+            style="margin-top: 10px;       width: 40%;">
+            <mat-label>Nombres</mat-label>
+            <input readonly  matInput type="text" autocomplete="off" formControlName="name" >
+          </mat-form-field>
+          <mat-form-field color="warn" class="example-form-field"
+            style="margin-top: 10px;width: 55%;
+            margin-left: 51px">
+            <mat-label>Apellidos</mat-label>
+            <input  readonly  matInput type="text" autocomplete="off" formControlName="fl_name">
+          </mat-form-field>
+
+          <mat-form-field color="warn" class="example-form-field"
+          style="margin-top: 10px;    width: 100%;">
+            <mat-label>Dirección</mat-label>
+            <input matInput type="text" autocomplete="off" formControlName="direction">
+          </mat-form-field>
+
+          <mat-form-field color="warn" style="margin-top: 10px;width: 90%">
+            <mat-label>Plan</mat-label>
+            <mat-select formControlName="plan">
+              <mat-option *ngFor="let tipPlan of tipos" [value]="tipPlan.idTipo">
+                {{tipPlan.plan}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <a (click)="abrirPlan()" style="cursor: pointer;margin-left: 30px;text-decoration:underline;" type="button">Nuevo Plan</a>
+          <mat-form-field color="warn" class="example-form-field"
+          style="margin-top: 10px;    width: 40%;">
+            <mat-label>Celular</mat-label>
+            <input matInput type="text" formControlName="cel" id="cel" autocomplete="off">
+          </mat-form-field>
+
+          <mat-form-field color="warn" class="example-form-field"
+          style="margin-top: 10px;margin-top: 10px;width: 55%;
+          margin-left: 51px">
+            <mat-label>Celular (opcional)</mat-label>
+            <input matInput type="text" formControlName="cel2" id="cel2" autocomplete="off">
+          </mat-form-field>
+          </ng-container>
+          <ng-container *ngIf="valorConsulta == 'dos';">
+            <mat-form-field color="warn" class="example-form-field"
+            style="margin-top: 10px;    width: 185%;">
+              <mat-label>Razón social</mat-label>
+              <input readonly  matInput type="text" formControlName="name" autocomplete="off">
+            </mat-form-field>
+             {{estadoEmpresa}}
+             <mat-form-field color="warn" class="example-form-field"
+            style="display: none;">
+            <mat-label>Apellidos</mat-label>
+            <input  matInput type="text" formControlName="fl_name" autocomplete="off">
+          </mat-form-field>
+
+          <mat-form-field color="warn" class="example-form-field"
+          style="margin-top: 10px;    width: 185%;">
+            <mat-label>Dirección</mat-label>
+            <input readonly matInput type="text" formControlName="direction" autocomplete="off">
+          </mat-form-field>
+
+          <mat-form-field color="warn" style="margin-top: 10px;width: 90%">
+            <mat-label>Plan</mat-label>
+            <mat-select formControlName="plan">
+              <mat-option *ngFor="let tipPlan of tipos" [value]="tipPlan.idTipo">
+                {{tipPlan.plan}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <a (click)="abrirPlan()" style="cursor: pointer;margin-left: 30px;text-decoration:underline;" type="button">Nuevo Plan</a>
+          <mat-form-field color="warn" class="example-form-field"
+          style="margin-top: 10px;    width: 40%;">
+            <mat-label>Celular</mat-label>
+            <input matInput type="text" formControlName="cel" id="cel" autocomplete="off">
+          </mat-form-field>
+
+          <mat-form-field color="warn" class="example-form-field"
+          style="margin-top: 10px;margin-top: 10px;width: 55%;
+          margin-left: 51px">
+            <mat-label>Celular (opcional)</mat-label>
+            <input matInput type="text" formControlName="cel2" id="cel2" autocomplete="off">
+          </mat-form-field>
+
+          </ng-container>
+          <ng-container *ngIf="valorConsulta == 'tres';">
+            <mat-form-field color="warn" class="example-form-field"
+          style="margin-top: 10px;       width: 40%;">
+            <mat-label>Nombres</mat-label>
+            <input  matInput type="text"  autocomplete="off" formControlName="name" >
+          </mat-form-field>
+          <mat-form-field color="warn" class="example-form-field"
+          style="margin-top: 10px;width: 55%;
+          margin-left: 51px">
+            <mat-label>Apellidos</mat-label>
+            <input   matInput type="text"  name="apellidos" autocomplete="off" formControlName="fl_name">
+          </mat-form-field>
+
+          <mat-form-field color="warn" class="example-form-field"
+          style="margin-top: 10px;    width: 100%;">
+            <mat-label>Dirección</mat-label>
+            <input matInput type="text" formControlName="direction" id="direccion" autocomplete="off">
+          </mat-form-field>
+
+
+          <mat-form-field color="warn" style="margin-top: 10px;width: 90%">
+            <mat-label>Plan</mat-label>
+            <mat-select formControlName="plan">
+              <mat-option *ngFor="let tipPlan of tipos" [value]="tipPlan.idTipo">
+                {{tipPlan.plan}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <a (click)="abrirPlan()" style="cursor: pointer;margin-left: 30px;text-decoration:underline;" type="button">Nuevo Plan</a>
+          <mat-form-field color="warn" class="example-form-field"
+          style="margin-top: 10px;    width: 40%;">
+            <mat-label>Celular</mat-label>
+            <input matInput type="text" formControlName="cel" id="cel" autocomplete="off">
+          </mat-form-field>
+
+          <mat-form-field color="warn" class="example-form-field"
+          style="margin-top: 10px;margin-top: 10px;width: 55%;
+          margin-left: 51px">
+            <mat-label>Celular (opcional)</mat-label>
+            <input matInput type="text" formControlName="cel2" id="cel2" autocomplete="off">
+          </mat-form-field>
+          </ng-container>
+                <div>
+                  <button mat-raised-button type="submit" >Siguiente</button>
+                </div>
+              </form>
+            </mat-step>
+
+
+            <mat-step [stepControl]="secondFormGroup" [editable]="isEditable">
+              <form method="POST" [formGroup]="secondFormGroup" #vehiculoForm ="ngForm" (ngSubmit)="addVehiculo(vehiculoForm)">
+                <ng-template matStepLabel>Datos vehículo</ng-template>
+                <mat-form-field color="warn">
+                  <mat-label>Placa</mat-label>
+                  <input color="primary" matInput #placa formControlName="plate" id="id_placa" placeholder="Ex. AXT473"
+                         required name="plate" autocomplete="off">
+                </mat-form-field>
+                <button style="position: static;
+                    margin-left: 10px;" type="button" mat-raised-button (click)="consultaPlaca(placa.value)">Consultar</button>
+                <br>
+                <ng-container *ngIf="status=='success';">
+                  <mat-form-field color="warn" class="cincuenta">
+                    <mat-label>Marca</mat-label>
+                    <input readonly color="primary" matInput formControlName="mar" id="id_marca"
+                           required name="mar">
+                  </mat-form-field>
+                  <mat-form-field color="warn" class="inputtwo">
+                    <mat-label>Modelo</mat-label>
+                    <input readonly color="primary" matInput formControlName="mod" id="id_modelo"
+                           required name="mod">
+                  </mat-form-field>
+                </ng-container>
+                <ng-container *ngIf="status=='error';">
+                  <mat-form-field color="warn" class="cincuenta">
+                    <mat-label>Marca</mat-label>
+                    <input  color="primary" matInput formControlName="mar" id="id_marca"
+                           required name="mar">
+                  </mat-form-field>
+                  <mat-form-field color="warn" class="inputtwo">
+                    <mat-label>Modelo</mat-label>
+                    <input  color="primary" matInput formControlName="mod" id="id_modelo"
+                           required name="mod">
+                  </mat-form-field>
+                </ng-container>
+                <div>
+                  <button  mat-raised-button type="submit">Siguiente</button>
+                </div>
+              </form>
+            </mat-step>
+
+          <mat-step [stepControl]="terFormGroup" [editable]="isEditable">
+            <form [formGroup]="terFormGroup" #instaForm ="ngForm" (ngSubmit)="addInstalacion(instaForm)">
+              <ng-container *ngIf="estadoInstalacion==='platform';">
+                <ng-template matStepLabel>Datos gps</ng-template>
+                  <mat-form-field color="warn" style="width: 100%">
+                    <mat-label>Técnico</mat-label>
+                    <mat-select formControlName="idTec">
+                      <mat-option *ngFor="let tecnico of tech" [value]="tecnico.idTec">
+                        {{tecnico.nom}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field color="warn" style="width: 100%">
+                    <mat-label>Operador</mat-label>
+                    <mat-select formControlName="idOpe">
+                      <mat-option *ngFor="let operador of ope" [value]="operador.idOpe">
+                        {{operador.nom}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field color="warn" class="cincuenta">
+                    <mat-label>Número de operador</mat-label>
+                    <input  color="primary" matInput formControlName="numOpe" id="id_numOpe"
+                          required name="numOpe">
+                  </mat-form-field>
+
+                  <mat-form-field color="warn" class="inputtwo">
+                    <mat-label>Quien compró el chip ?</mat-label>
+                    <input  color="primary" matInput formControlName="chip" id="id_chip"
+                          required name="chip">
+                  </mat-form-field>
+
+                  <mat-form-field color="warn" style="width: 100%">
+                    <mat-label>Equipo</mat-label>
+                    <mat-select formControlName="idTip">
+                      <mat-option *ngFor="let equipo of pro" [value]="equipo.id_tipo_producto">
+                        {{equipo.nombre}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field color="warn" class="cincuenta">
+                    <mat-label>Usuario</mat-label>
+                    <input  color="primary" matInput formControlName="username" id="id_username"
+                          required name="username">
+                  </mat-form-field>
+
+                  <mat-form-field color="warn" class="inputtwo">
+                    <mat-label>Contraseña</mat-label>
+                    <input  color="primary" matInput formControlName="password" id="id_password"
+                          required name="password">
+                  </mat-form-field>
+              </ng-container>
+              <ng-container *ngIf="estadoInstalacion==='noplatform';">
+                <ng-template matStepLabel>Datos gps</ng-template>
+                  <mat-form-field color="warn" style="width: 100%">
+                    <mat-label>Técnico</mat-label>
+                    <mat-select formControlName="idTec">
+                      <mat-option *ngFor="let tecnico of tech" [value]="tecnico.idTec">
+                        {{tecnico.nom}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field color="warn" style="width: 100%">
+                    <mat-label>Operador</mat-label>
+                    <mat-select formControlName="idOpe">
+                      <mat-option *ngFor="let operador of ope" [value]="operador.idOpe">
+                        {{operador.nom}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field color="warn" class="cincuenta">
+                    <mat-label>Número de operador</mat-label>
+                    <input  color="primary" matInput formControlName="numOpe" id="id_numOpe"
+                          required name="numOpe">
+                  </mat-form-field>
+
+                  <mat-form-field color="warn" class="inputtwo">
+                    <mat-label>Quien compró el chip ?</mat-label>
+                    <input  color="primary" matInput formControlName="chip" id="id_chip"
+                          required name="chip">
+                  </mat-form-field>
+
+                  <mat-form-field color="warn" style="width: 100%">
+                    <mat-label>Equipo</mat-label>
+                    <mat-select formControlName="idTip">
+                      <mat-option *ngFor="let equipo of pro" [value]="equipo.id_tipo_producto">
+                        {{equipo.nombre}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field color="warn" class="cincuenta">
+                    <mat-label>Usuario</mat-label>
+                    <input  color="primary" matInput formControlName="usernameAux" id="id_usernameAux"
+                            name="usernameAux">
+                  </mat-form-field>
+
+                  <mat-form-field color="warn" class="inputtwo">
+                    <mat-label>Contraseña</mat-label>
+                    <input  color="primary" matInput formControlName="passwordAux" id="id_usernameAux"
+                            name="passwordAux">
+                  </mat-form-field>
+              </ng-container>
+              <div>
+                <button mat-raised-button type="submit">Finalizar</button>
+              </div>
+            </form>
+          </mat-step>
+        </mat-horizontal-stepper>
+      </ng-container>
+
+        <!--SI EXISTE DATA-->
+      <ng-template #existeData>
+        <mat-horizontal-stepper labelPosition="bottom" #stepper >
+          <mat-step [stepControl]="secondFormGroup" [editable]="isEditable">
+            <form method="POST" [formGroup]="secondFormGroup" #vehiculoForm ="ngForm" (ngSubmit)="addVehiculo(vehiculoForm)">
+              <ng-template matStepLabel>Datos vehículo</ng-template>
+              <mat-form-field color="warn">
+                <mat-label>Placa</mat-label>
+                <input color="primary" matInput #placa formControlName="plate" id="id_placa" placeholder="Ex. AXT473"
+                       required name="plate" autocomplete="off">
+              </mat-form-field>
+              <button style="position: static;
+                  margin-left: 10px;" type="button" mat-raised-button (click)="consultaPlaca(placa.value)">Consultar</button>
+              <br>
+              <ng-container *ngIf="status=='success';">
+                <mat-form-field color="warn" class="cincuenta">
+                  <mat-label>Marca</mat-label>
+                  <input readonly color="primary" matInput formControlName="mar" id="id_marca"
+                         required name="mar">
+                </mat-form-field>
+                <mat-form-field color="warn" class="inputtwo">
+                  <mat-label>Modelo</mat-label>
+                  <input readonly color="primary" matInput formControlName="mod" id="id_modelo"
+                         required name="mod">
+                </mat-form-field>
+              </ng-container>
+              <ng-container *ngIf="status=='error';">
+                <mat-form-field color="warn" class="cincuenta">
+                  <mat-label>Marca</mat-label>
+                  <input  color="primary" matInput formControlName="mar" id="id_marca"
+                         required name="mar">
+                </mat-form-field>
+                <mat-form-field color="warn" class="inputtwo">
+                  <mat-label>Modelo</mat-label>
+                  <input  color="primary" matInput formControlName="mod" id="id_modelo"
+                         required name="mod">
+                </mat-form-field>
+              </ng-container>
+              <div>
+                <button  mat-raised-button type="submit">Siguiente</button>
+              </div>
+            </form>
+          </mat-step>
+          <mat-step [stepControl]="terFormGroup" [editable]="isEditable">
+            <ng-template matStepLabel>Datos gps</ng-template>
+            <form [formGroup]="terFormGroup" #instaForm ="ngForm" (ngSubmit)="addInstalacion(instaForm)">
+              <ng-container *ngIf="estadoInstalacion==='platform';">
+                <ng-template matStepLabel>Datos gps</ng-template>
+                  <mat-form-field color="warn" style="width: 100%">
+                    <mat-label>Técnico</mat-label>
+                    <mat-select formControlName="idTec">
+                      <mat-option *ngFor="let tecnico of tech" [value]="tecnico.idTec">
+                        {{tecnico.nom}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field color="warn" style="width: 100%">
+                    <mat-label>Operador</mat-label>
+                    <mat-select formControlName="idOpe">
+                      <mat-option *ngFor="let operador of ope" [value]="operador.idOpe">
+                        {{operador.nom}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field color="warn" class="cincuenta">
+                    <mat-label>Número de operador</mat-label>
+                    <input  color="primary" matInput formControlName="numOpe" id="id_numOpe"
+                          required name="numOpe">
+                  </mat-form-field>
+
+                  <mat-form-field color="warn" class="inputtwo">
+                    <mat-label>Quien compró el chip ?</mat-label>
+                    <input  color="primary" matInput formControlName="chip" id="id_chip"
+                          required name="chip">
+                  </mat-form-field>
+
+                  <mat-form-field color="warn" style="width: 100%">
+                    <mat-label>Equipo</mat-label>
+                    <mat-select formControlName="idTip">
+                      <mat-option *ngFor="let equipo of pro" [value]="equipo.id_tipo_producto">
+                        {{equipo.nombre}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field color="warn" class="cincuenta">
+                    <mat-label>Usuario</mat-label>
+                    <input  color="primary" matInput formControlName="username" id="id_username"
+                          required name="username">
+                  </mat-form-field>
+
+                  <mat-form-field color="warn" class="inputtwo">
+                    <mat-label>Contraseña</mat-label>
+                    <input  color="primary" matInput formControlName="password" id="id_password"
+                          required name="password">
+                  </mat-form-field>
+              </ng-container>
+              <ng-container *ngIf="estadoInstalacion==='noplatform';">
+                <ng-template matStepLabel>Datos gps</ng-template>
+                  <mat-form-field color="warn" style="width: 100%">
+                    <mat-label>Técnico</mat-label>
+                    <mat-select formControlName="idTec">
+                      <mat-option *ngFor="let tecnico of tech" [value]="tecnico.idTec">
+                        {{tecnico.nom}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field color="warn" style="width: 100%">
+                    <mat-label>Operador</mat-label>
+                    <mat-select formControlName="idOpe">
+                      <mat-option *ngFor="let operador of ope" [value]="operador.idOpe">
+                        {{operador.nom}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field color="warn" class="cincuenta">
+                    <mat-label>Número de operador</mat-label>
+                    <input  color="primary" matInput formControlName="numOpe" id="id_numOpe"
+                          required name="numOpe">
+                  </mat-form-field>
+
+                  <mat-form-field color="warn" class="inputtwo">
+                    <mat-label>Quien compró el chip ?</mat-label>
+                    <input  color="primary" matInput formControlName="chip" id="id_chip"
+                          required name="chip">
+                  </mat-form-field>
+
+                  <mat-form-field color="warn" style="width: 100%">
+                    <mat-label>Equipo</mat-label>
+                    <mat-select formControlName="idTip">
+                      <mat-option *ngFor="let equipo of pro" [value]="equipo.id_tipo_producto">
+                        {{equipo.nombre}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field color="warn" class="cincuenta">
+                    <mat-label>Usuario</mat-label>
+                    <input  color="primary" matInput formControlName="usernameAux" id="id_usernameAux"
+                            name="usernameAux">
+                  </mat-form-field>
+
+                  <mat-form-field color="warn" class="inputtwo">
+                    <mat-label>Contraseña</mat-label>
+                    <input  color="primary" matInput formControlName="passwordAux" id="id_usernameAux"
+                            name="passwordAux">
+                  </mat-form-field>
+              </ng-container>
+              <div>
+                <button mat-raised-button type="submit">Finalizar</button>
+              </div>
+            </form>
+          </mat-step>
+        </mat-horizontal-stepper>
+      </ng-template>
+  </mat-tab>
+  <mat-tab label="Lista">
+    <ng-container *ngIf="estadoRenovacionCliente === false;">
+      <div class="search-div" >
+        <mat-form-field class="search-form-field" >
+          <input matInput [(ngModel)]="searchKey" placeholder="Buscar" autocomplete="off" (keyup)="applyFilterInstalacion()">
+          <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey" (click)="onSearchClearInstalacion()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+
+      </div>
+      <div class="mat-elevation-z8" >
+        <mat-table #InstalacionSort="matSort" [dataSource]="listDataInstalacion"  matSort id="table">
+
+          <ng-container matColumnDef="idIns">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+            <mat-cell *matCellDef="let element"
+            style="cursor: pointer;font-size: 12px;"
+            > {{element.idIns}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="nomTip">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </mat-header-cell>
+            <mat-cell *matCellDef="let element"
+            style="cursor: pointer;font-size: 12px;"
+            > {{element.nomTip}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="nombres">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Nombres </mat-header-cell>
+              <mat-cell *matCellDef="let element"
+              style="cursor: pointer;font-size: 12px;"
+              > {{element.nombres}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="direccion">
+              <mat-header-cell style="justify-content: center;" *matHeaderCellDef mat-sort-header> Dirección </mat-header-cell>
+              <mat-cell *matCellDef="let element"
+              style="justify-content: center;cursor: pointer;font-size: 12px;"
+              > {{element.direccion}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="contacto">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Contacto </mat-header-cell>
+              <mat-cell *matCellDef="let element"
+              style="cursor: pointer;font-size: 12px;"
+              > {{element.contacto}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="fechIni">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Desde</mat-header-cell>
+              <mat-cell *matCellDef="let element"
+              style="cursor: pointer;font-size: 12px;"
+              > {{element.fechIni}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="fechTer">
+              <mat-header-cell style="justify-content: center;" *matHeaderCellDef mat-sort-header> Hasta </mat-header-cell>
+              <mat-cell *matCellDef="let element"
+              style="justify-content: center;cursor: pointer;font-size: 12px;"
+              > {{element.fechTer}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="username">
+              <mat-header-cell style="justify-content: center;" *matHeaderCellDef mat-sort-header> Usuario </mat-header-cell>
+              <mat-cell *matCellDef="let element"
+              style="cursor: pointer;justify-content: center !important;font-size: 12px;"
+              >{{element.username}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="password">
+              <mat-header-cell style="justify-content: center;" *matHeaderCellDef mat-sort-header> Contrasenia </mat-header-cell>
+              <mat-cell *matCellDef="let element"
+              style="cursor: pointer;justify-content: center !important;font-size: 12px;"
+              >{{element.password}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="numOpe">
+              <mat-header-cell style="justify-content: center;" *matHeaderCellDef mat-sort-header> Nro Chip </mat-header-cell>
+              <mat-cell *matCellDef="let element"
+              style="cursor: pointer;justify-content: center !important;font-size: 12px;"
+              >{{element.numOpe}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="placa">
+              <mat-header-cell style="justify-content: center;" *matHeaderCellDef mat-sort-header> Placa </mat-header-cell>
+              <mat-cell *matCellDef="let element"
+              style="cursor: pointer;justify-content: center !important;font-size: 12px;"
+              >{{element.placa}}</mat-cell>
+            </ng-container>
+
+            <!-- Name Column [class.table-active]="element == categoriaSeleccion"-->
+            <ng-container matColumnDef="opciones">
+              <mat-header-cell *matHeaderCellDef style="justify-content: center;"> Opciones </mat-header-cell>
+              <mat-cell *matCellDef="let row">
+
+                <button mat-icon-button (click)="renovarCliente(row)">
+                  <mat-icon>autorenew</mat-icon>
+                </button>
+
+                <button mat-icon-button (click)="pdf(row.nombres,row.username,row.password,row.fechIni,row.fechTer,row.numOpe,row.placa)">
+                  <mat-icon>picture_as_pdf</mat-icon>
+                </button>
+
+                <button mat-icon-button color="warn" (click)="deleteInstalacion(row)">
+                    <mat-icon>delete_outline</mat-icon>
+                  </button>
+              </mat-cell>
+            </ng-container>
+          <ng-container matColumnDef="loading">
+            <mat-footer-cell *matFooterCellDef colspan="6">
+              Cargando data...
+            </mat-footer-cell>
+          </ng-container>
+          <ng-container matColumnDef="noData">
+            <mat-footer-cell *matFooterCellDef colspan="6">
+              No Data.
+            </mat-footer-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="columnaInstalacion"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: columnaInstalacion;"></mat-row>
+          <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':listDataInstalacion!=null}"></mat-footer-row>
+          <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide':!(listDataInstalacion!=null && listDataInstalacion.data.length==0)}"></mat-footer-row>
+
+        </mat-table>
+        <mat-paginator class="mat-table-page" #MatPaginatorInstalacion="matPaginator" matPaginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons ></mat-paginator>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="estadoRenovacionCliente === true;">
+      <form [formGroup]="RFormGroup" #RRForm ="ngForm" (ngSubmit)="addRR(RRForm)">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Renovar</mat-card-title>
+            <mat-card-subtitle>{{datosCliente.nom}} : {{datosCliente.plan}} <a [ngStyle]="setColor()" style="font-weight: bold;font-size: 20px;">{{estado}}</a></mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>
+              Tipo de renovación (1:cliente anual | 2:cliente mensual | 3:cliente semanal) : <a style="color:#E5E5E5;font-weight: bold;">{{estadoDias}}</a>
+            </p>
+            <p>
+              Vehiculo con placa: <a style="color:#E5E5E5;font-weight: bold;">{{datosCliente.placa}}</a></p><br>
+            <p>
+              Tiempo de periodo desde el <a style="color:#f44336;font-weight: bold;">{{datosCliente.inicio}}</a> hasta <a style="color:#f44336;font-weight: bold;">{{datosCliente.vence}}</a>
+            </p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Datos del recibo</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-form-field color="warn" class="example-form-field"
+              style="width: 40%;">
+              <mat-label>Total</mat-label>
+              <input (keyup)="llenay()" id="x" matInput type="text" autocomplete="off" formControlName="total" placeholder="S/">
+            </mat-form-field>
+            <mat-form-field color="warn" class="example-form-field"
+              style="width: 20%;margin-left: 20px;">
+              <mat-label>Cantidad de cuotas pagadas</mat-label>
+              <input id="cc" matInput type="text" autocomplete="off" formControlName="cantCuo">
+            </mat-form-field>
+            <br>
+            <mat-form-field *ngIf="inputy==true" color="warn" class="example-form-field"
+              style="width: 40%;">
+              <mat-label>A cuenta</mat-label>
+              <input (keyup)="llenar()" id="y" matInput type="text" autocomplete="off" formControlName="cuenta" placeholder="S/">
+            </mat-form-field>
+            <br>
+            <mat-form-field *ngIf="inputr==true" color="warn" class="example-form-field"
+              style=" width: 40%;">
+              <mat-label>Resta</mat-label>
+              <input readonly id="r" matInput type="text" autocomplete="off" formControlName="resta" placeholder="S/">
+            </mat-form-field>
+          </mat-card-content>
+          <mat-card-actions>
+            <button type="button" mat-button (click)="atras()">Retroceder</button>
+            <button type="submit" mat-raised-button color="warn">Renovar</button>
+          </mat-card-actions>
+        </mat-card>
+      </form>
+    </ng-container>
+  </mat-tab>
+</mat-tab-group>
+
+</div>

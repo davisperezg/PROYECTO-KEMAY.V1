@@ -5,6 +5,8 @@ import { Marca } from './../../../models/marca/marca';
 import { ProductosService } from './../../../services/productos/productos.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Productos } from './../../../models/productos/productos';
+declare var JQuery:any;
+declare var $:any;
 
 @Component({
   selector: 'app-precios',
@@ -12,7 +14,6 @@ import { Productos } from './../../../models/productos/productos';
   styleUrls: ['./precios.component.css']
 })
 export class PreciosComponent implements OnInit {
-
   categorias: Categorias[]
   tipos : TiposPorducto[]
   marca: Marca[]
@@ -37,6 +38,15 @@ export class PreciosComponent implements OnInit {
     this.productoService.listTipoXCategoria(idCategoria)
     .subscribe(res => {
       this.tipos = res as TiposPorducto[]
+      /**
+       * console.log(data)
+      if(data.length<=0){
+        $("#id_marca").text("")
+      }else{
+        this.tipos = data
+        $("#id_marca").val()
+      }
+       */
     });
   }
 

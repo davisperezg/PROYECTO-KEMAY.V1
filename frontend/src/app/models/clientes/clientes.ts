@@ -1,7 +1,7 @@
 export class Clientes {
   constructor
   (
-  nombres='',
+    nombres='',
   apellidos='',
   tipo_documento='',
   numero_documento='',

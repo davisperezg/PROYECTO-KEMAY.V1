@@ -73,7 +73,7 @@ export class CotizacionComponent implements OnInit {
   ngOnInit(): void {
 
   }
-  dateFormat1(d) {
+   public dateFormat1(d) {
     var t = new Date(d);
     return this.dias[t.getDay()] +', ' +t.getDate() + ' de ' +
     this.monthNames[t.getMonth()] + ' del ' + t.getFullYear();
@@ -88,12 +88,13 @@ export class CotizacionComponent implements OnInit {
       id_usuarios:user.ID,
       fecha:new Date,
       garantia:form.value.garantia,
-      precio:'INCLUYE IGV',
+      precio:form.value.precio,
       oferta:'7 DÍAS',
       entrega:form.value.entrega,
       formapago:'CONTADO',
       id_clientes:this._id,
-      id_estado:2
+      id_estado:2,
+      nota:form.value.nota
     }
 
     this.cotizaService.postProforma(dataAux)
@@ -129,6 +130,7 @@ export class CotizacionComponent implements OnInit {
             //OBTENER LA PROFORMA POR EL ID
             this.cotizaService.obtenerProforma(res.numProforma)
             .subscribe((resObtenerProforma:any) => {
+              console.log(resObtenerProforma)
               this.cotizaService.obtenerDetalleProforma(resObtenerProforma[0].id_proforma)
               .subscribe((resObtenerDetalleProforma:any) => {
                     //console.log(resObtenerProforma[0])
@@ -199,8 +201,9 @@ export class CotizacionComponent implements OnInit {
                     //VAL_NOM
                     doc.setFont('helvetica')
                     doc.setFontType('normal')
-                    doc.setFontSize(10)
-                    doc.text(35, 72, resObtenerProforma[0].nombres.toUpperCase()+' '+resObtenerProforma[0].apellidos.toUpperCase())
+                    doc.setFontSize(8.5)
+                    var ochentacincoCaracteres = doc.splitTextToSize(resObtenerProforma[0].nombres.toUpperCase()+' '+resObtenerProforma[0].apellidos.toUpperCase(),85)
+                    doc.text(35, 72, ochentacincoCaracteres)
                     if(resObtenerProforma[0].tipo_documento === 'R.U.C'){
                       const ruc = resObtenerProforma[0].numero_documento
                       const dni = ' '
@@ -261,8 +264,9 @@ export class CotizacionComponent implements OnInit {
                     //VAL_DIR
                     doc.setFont('helvetica')
                     doc.setFontType('normal')
-                    doc.setFontSize(10)
-                    doc.text(35, 87, resObtenerProforma[0].direccion.toUpperCase())
+                    doc.setFontSize(8.5)
+                    var cincuentaCaracteres = doc.splitTextToSize(resObtenerProforma[0].direccion.toUpperCase(),85)
+                    doc.text(35, 87, cincuentaCaracteres)
                     //TEL_CLIENTE
                     doc.setFont('helvetica')
                     doc.setFontType('bold')
@@ -273,6 +277,7 @@ export class CotizacionComponent implements OnInit {
                     doc.setFont('helvetica')
                     doc.setFontType('normal')
                     doc.setFontSize(10)
+                    console.log(resObtenerProforma[0].telefono)
                     doc.text(35, 94, resObtenerProforma[0].telefono)
                     //CEL_CLIENTE
                     doc.setFont('helvetica')
@@ -356,7 +361,7 @@ export class CotizacionComponent implements OnInit {
                       const plazo2 = 'previa'
                       const plazo2_alar = 'coordinación'
                       //VAL_FORMA
-                      doc.setFont('courier')
+                      doc.setFont('helvetica')
                       doc.setFontType('normal')
                       doc.setFontSize(10)
                       doc.text(175, 87, plazo2.toUpperCase())
@@ -369,7 +374,7 @@ export class CotizacionComponent implements OnInit {
                        doc.text(170, 97, ':')
                        //VAL_FORMA
                        doc.setFont('helvetica')
-                      doc.setFontType('normal')
+                       doc.setFontType('normal')
                        doc.setFontSize(10)
                        doc.text(175, 97, resObtenerProforma[0].garantia.toUpperCase())
                     }
@@ -379,9 +384,18 @@ export class CotizacionComponent implements OnInit {
                     doc.setFont('helvetica')
                     doc.setFontType('normal')
                     doc.text(5, 105, 'ESTIMADO CLIENTE :')
-                    var text = doc.splitTextToSize('POR MEDIO DE ESTA PRESENTE HACEMOS LLEGAR NUESTRO COORDIAL SALUDO Y A LA VEZ LA COTIZACIÓN A VUESTRA SOLICITUD',200)
+                    var text = doc.splitTextToSize('POR MEDIO DE ESTA PRESENTE HACEMOS LLEGAR NUESTRO COORDIAL SALUDO Y A LA VEZ LA COTIZACIÓN A VUESTRA SOLICITUD.',200)
                     doc.text(5, 110, text)
-
+                    if(resObtenerProforma[0].nota != null || resObtenerProforma[0].nota != undefined){
+                      doc.setFontSize(9)
+                      doc.setFontType('bold')
+                      doc.setTextColor(255, 0, 0)
+                      doc.text(5, 118, 'Nota: ')
+                      doc.setTextColor(0, 0, 0)
+                      var textNota = doc.splitTextToSize(resObtenerProforma[0].nota,200)
+                      doc.setFontType('normal')
+                      doc.text(14, 118, textNota)
+                    }else
                     //LINE
                     //doc.setDrawColor(41, 87, 164)
                     doc.setLineWidth(1)

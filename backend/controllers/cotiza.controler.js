@@ -12,6 +12,7 @@ cotizaController.crearCotiza = async (req, res) => {
     try{
         connection.query('INSERT INTO proforma set ?', data, (err, cotiza) => {
            if(err) {
+             console.log(err)
             return res.status(400).json('Cliente no existe')
            }else{
             if(cotiza.insertId > 0){ 

@@ -9,7 +9,13 @@
   </div>
   <div class="mat-elevation-z8" *ngIf="data==null">
     <mat-table #ProductoSort="matSort" [dataSource]="listDataProducto"  matSort>
-        <ng-container matColumnDef="categoria">
+      <ng-container matColumnDef="id_producto">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+        <mat-cell *matCellDef="let element"
+        style="cursor: pointer;font-size: 12px;"> {{element.id_producto}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="categoria">
           <mat-header-cell *matHeaderCellDef mat-sort-header> Categoría </mat-header-cell>
           <mat-cell *matCellDef="let element"
           style="cursor: pointer;font-size: 12px;"> {{element.categoria}} </mat-cell>

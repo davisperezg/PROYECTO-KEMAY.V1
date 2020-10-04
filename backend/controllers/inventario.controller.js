@@ -72,6 +72,8 @@ inventarioController.actualizarPrecioInventario  = async function(req, res) {
 }
 
 
+
+
 inventarioController.crearHistorial  = async function(req, res) {
     //enviar datos del historial
     const data = req.body;

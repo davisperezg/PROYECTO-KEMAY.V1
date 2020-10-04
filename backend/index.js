@@ -24,7 +24,7 @@ app.use(morgan('dev'));
 app.use(myConnection(mysql, {
     host:'localhost',
     user:'root',
-    password:'',
+    password:'mysql',
     port:'3306',
     database:'kemaytec_mydb'
 },'single'))
@@ -43,6 +43,10 @@ app.use('/api/categorias', require('./routes/categoria.routes'));
 app.use('/api/inventario', require('./routes/inventario.routes'));
 app.use('/api/clientes', require('./routes/clientes.routes'));
 app.use('/api/cotiza', require('./routes/cotiza.routes'));
+app.use('/api/vehiculo', require('./routes/vehiculo.routes'));
+app.use('/api/instalacion/', require('./routes/instalacion.routes'));
+app.use('/api/recibo/', require('./routes/recibo.routes'));
+app.use('/api/consulta/', require('./routes/consultas.routes'));
 
 //Starting the server
 app.listen(app.get('port'), () => {

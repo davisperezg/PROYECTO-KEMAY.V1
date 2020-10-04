@@ -48,7 +48,7 @@
 
       </div>
     </div>
-    <div class="card-section border floatr">
+    <div class="card-section border floatr" style="overflow: auto;">
       <div class="title-card pd10" style="font-size: 11px;">
         CONDICIONES GENERALES:
         <label style="margin-left:260px;">PROFORMA DE VENTA</label>
@@ -63,7 +63,7 @@
           </mat-form-field></td>
           <td><mat-form-field  color="warn" class="example-full-width lf2">
             <mat-label>PRECIOS</mat-label>
-            <input  style="font-size: 11px" disabled value="INCLUYE IGV" matInput>
+            <input  style="font-size: 11px" value="INCLUYE IGV" autocomplete="off" matInput #incluye="ngModel" [(ngModel)]="cotizaSeleccion.precio" name="precio">
           </mat-form-field></td>
         </tr></table>
         <table class="example-full-width mtp10" cellspacing="0"><tr>
@@ -85,6 +85,19 @@
           <td><mat-form-field  color="warn" class="example-full-width lf2">
             <mat-label>FORMA DE PAGO</mat-label>
             <input  style="font-size: 11px" disabled value="CONTADO" matInput>
+          </mat-form-field></td>
+        </tr></table>
+        <table class="example-full-width mtp10" cellspacing="0"><tr>
+          <td><mat-form-field color="warn" class="example-form-field" style="width: 100%;">
+            <mat-label>Observación</mat-label>
+            <textarea matInput name="nota"
+            rows="10"
+            maxlength="200" #message
+            #nota="ngModel" [(ngModel)]="cotizaSeleccion.nota">
+            </textarea>
+            <mat-hint align="start">Escribe alguna nota u observación de la proforma</mat-hint>
+            <mat-hint align="end">{{message.value.length}}/200</mat-hint>
+
           </mat-form-field></td>
         </tr></table>
       </div>

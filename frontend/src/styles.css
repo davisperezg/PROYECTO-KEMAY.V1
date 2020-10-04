@@ -166,3 +166,9 @@ mat-footer-row mat-footer-cell{
 .section::-webkit-scrollbar-track {
   border-radius: 10px;
 }
+.mat-card{
+  margin:10px;
+}
+.mat-card-header-text{
+  margin: 0px !important;
+}

@@ -1,0 +1,83 @@
+<div class="window-model">
+  <div class="div-table">
+      <div class="search-div" >
+        <mat-form-field class="search-form-field" >
+          <input matInput [(ngModel)]="searchKey" placeholder="Buscar" autocomplete="off" (keyup)="applyFilterTipo()">
+          <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey" (click)="onSearchClearTipo()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div class="mat-elevation-z8" >
+        <mat-table #TipoSort="matSort" [dataSource]="listDataTipo"  matSort>
+
+          <ng-container matColumnDef="plan">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Plan </mat-header-cell>
+            <mat-cell *matCellDef="let element"
+            style="cursor: pointer;"
+            (click)="editTipo(element)"> {{element.plan}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="dias">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Días </mat-header-cell>
+            <mat-cell *matCellDef="let element"
+            style="cursor: pointer;"
+            (click)="editTipo(element)"> {{element.dias}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="opciones">
+            <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>
+              <mat-cell *matCellDef="let row" >
+                <button mat-icon-button color="warn" (click)="deleteTipo(row.idTipo, tipoForm)">
+                  <mat-icon>delete_outline</mat-icon>
+                </button>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="loading">
+            <mat-footer-cell *matFooterCellDef colspan="6">
+                Cargando data...
+            </mat-footer-cell>
+          </ng-container>
+          <ng-container matColumnDef="noData">
+            <mat-footer-cell *matFooterCellDef colspan="6">
+                No Data.
+            </mat-footer-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="columnaTipo"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: columnaTipo;"></mat-row>
+          <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':listDataTipo!=null}"></mat-footer-row>
+          <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide':!(listDataTipo!=null && listDataTipo.data.length==0)}"></mat-footer-row>
+        </mat-table>
+        <mat-paginator  #MatPaginatorTipo="matPaginator" matPaginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons ></mat-paginator>
+      </div>
+  </div>
+  <div class="div-form">
+    <form [formGroup]="firstFormGroup" #tipoForm ="ngForm" (ngSubmit)="addPlan(tipoForm)">
+      <input type="hidden" formControlName="idTipo">
+
+      <mat-form-field color="warn" class="example-form-field pd10" style="    width: 90% !important;">
+        <mat-label>Plan</mat-label>
+        <input  matInput type="text" autocomplete="off" formControlName="plan">
+      </mat-form-field>
+      <mat-form-field color="warn" class="example-form-field pd10" style="    width: 90% !important;">
+        <mat-label>Descripción</mat-label>
+        <input  matInput type="text" autocomplete="off" formControlName="desPlan">
+      </mat-form-field>
+      <mat-radio-group aria-label="Select an option" class="pd10" formControlName="valPlan">
+        <mat-radio-button value="1" style="margin-left: 10px;
+        float: left;
+        font-size: 12px;">Con Plataforma</mat-radio-button>
+        <mat-radio-button value="2" style="    float: right;
+        font-size: 12px;    margin-right: 10px;">Sin Plataforma</mat-radio-button>
+      </mat-radio-group>
+      <br>
+      <mat-form-field color="warn" class="example-form-field pd10" style="width: 90% !important;">
+        <mat-label>Días</mat-label>
+        <input  matInput type="text" autocomplete="off" formControlName="dias">
+      </mat-form-field>
+      <button color="warn" mat-raised-button type="button" style="    margin-left: 10px;
+      margin-top: 30px;" (click)="close()">Cerrar</button>
+      <button mat-raised-button type="submit" style="margin-left: 10px;">Registrar</button>
+    </form>
+  </div>
+</div>

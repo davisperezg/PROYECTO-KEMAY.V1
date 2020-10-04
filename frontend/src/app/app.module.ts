@@ -14,7 +14,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { PaginaNoEncontradaComponent } from './components/pagina-no-encontrada/pagina-no-encontrada.component';
 import { ProductosComponent } from './components/productos/productos.component';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { AuthGuard } from '../app/guard/auth.guard'
 import { TokenInterceptorService } from '../app/token/token-interceptor.service';
@@ -28,6 +28,13 @@ import { CotizacionComponent } from './components/cotizacion/cotizacion.componen
 import { dialogPDF } from './components/cotizacion/dialogPDF.component';
 import { ClientesComponent } from './components/clientes/clientes.component';
 import { PreciosComponent } from './components/precios/precios/precios.component';
+import { ClientesgpsComponent } from './components/clientes/clientesgps/clientesgps.component';
+import { TipoComponent } from './components/clientes/clientesgps/tipo/tipo.component';
+import { ClienteExistenteComponent } from './components/dialog-confirmacion/cliente-existente/cliente-existente.component';
+import { DialogClienteInstaRegistradoComponent } from './components/dialog-confirmacion/dialog-cliente-insta-registrado/dialog-cliente-insta-registrado.component';
+import { RenovacionesComponent } from './components/renovaciones/renovaciones.component';
+import { VencidosComponent } from './components/vencidos/vencidos.component';
+import { CajaComponent } from './components/caja/caja.component';
 
 @NgModule({
   declarations: [
@@ -47,13 +54,23 @@ import { PreciosComponent } from './components/precios/precios/precios.component
     CotizacionComponent,
     ClientesComponent,
     dialogPDF,
-    PreciosComponent
+    PreciosComponent,
+    ClientesgpsComponent,
+    TipoComponent,
+    ClienteExistenteComponent,
+    DialogClienteInstaRegistradoComponent,
+    RenovacionesComponent,
+    VencidosComponent,
+    CajaComponent
   ],
   imports: [
-  BrowserModule,HttpClientModule,
+    FormsModule,
+    HttpClientModule,
+    BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MaterialModule,FormsModule
+    MaterialModule,
+    ReactiveFormsModule
   ],
   providers: [
     AuthGuard,

@@ -1,0 +1,19 @@
+
+{
+  "/api": {
+    "target": "https://web.pacifico.com.pe/seguros/soat/compraonline/api/plate",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": ""
+    }
+  },
+  "/reniec": {
+    "target": "https://api.reniec.cloud/dni",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/reniec": ""
+    }
+  }
+}

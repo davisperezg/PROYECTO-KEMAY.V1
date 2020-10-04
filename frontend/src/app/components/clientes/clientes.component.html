@@ -92,20 +92,10 @@
       <div class="seccion-parts">
         <form #clienteForm ="ngForm" (ngSubmit)="addCliente(clienteForm)" >
           <input type="hidden" name="id_clientes" #id_clientes="ngModel" [(ngModel)]="clienteSeleccion.id_clientes" name="id_clientes">
-          <mat-form-field color="warn" class="example-form-field"
-          style="margin-top: 10px;width: 50%;">
-            <mat-label>Nombres</mat-label>
-            <input matInput type="text" #nombres="ngModel" [(ngModel)]="clienteSeleccion.nombres" name="nombres" autocomplete="off">
-          </mat-form-field>
-          <mat-form-field color="warn" class="example-form-field"
-          style="margin-top: 10px;width: 45%;margin-left: 20px;">
-            <mat-label>Apellidos</mat-label>
-            <input matInput type="text" #apellidos="ngModel" [(ngModel)]="clienteSeleccion.apellidos" name="apellidos" autocomplete="off">
-          </mat-form-field>
-          <br>
+
           <mat-form-field  style="width: 100%;" color="warn">
             <mat-label>Documento</mat-label>
-            <mat-select name="tipo_documento" [(ngModel)]="clienteSeleccion.tipo_documento">
+            <mat-select #options name="tipo_documento" id="tipo_documento" [(ngModel)]="clienteSeleccion.tipo_documento">
               <mat-option  value="D.N.I">
                 DNI
               </mat-option>
@@ -116,24 +106,64 @@
           </mat-form-field>
           <br>
           <mat-form-field color="warn" class="example-form-field"
-          style="margin-top: 10px;width: 100%;">
-            <mat-label>Nro de documento</mat-label>
-            <input matInput type="text" #numero_documento="ngModel" [(ngModel)]="clienteSeleccion.numero_documento" name="numero_documento" autocomplete="off">
+          style="margin-top: 10px;width: 80%;">
+            <mat-label>Número de Documento</mat-label>
+            <input matInput type="text" id="param" #numero_documento="ngModel" [(ngModel)]="clienteSeleccion.numero_documento" name="numero_documento" autocomplete="off">
           </mat-form-field>
+          <button style="position: absolute;
+          top: 80px;
+          left: 450px;"  type="button" mat-raised-button (click)="consultDni(clienteForm)" >Consultar</button>
           <br>
+          <ng-container *ngIf="valorConsulta == 'D.N.I'; else verRuc">
+            <mat-form-field color="warn" class="example-form-field"
+          style="margin-top: 10px;       width: 80%;">
+            <mat-label>Nombres</mat-label>
+            <input  matInput type="text" #nombres="ngModel" [(ngModel)]="clienteSeleccion.nombres" name="nombres" autocomplete="off" >
+          </mat-form-field>
           <mat-form-field color="warn" class="example-form-field"
-          style="margin-top: 10px;width: 100%;">
+          style="margin-top: 10px;width: 45%;left: 495px;
+          position: absolute;">
+            <mat-label>Apellidos</mat-label>
+            <input   matInput type="text" #apellidos="ngModel" [(ngModel)]="clienteSeleccion.apellidos" name="apellidos" autocomplete="off">
+          </mat-form-field>
+
+          <mat-form-field color="warn" class="example-form-field"
+          style="margin-top: 10px;    width: 185%;">
+            <mat-label>Dirección</mat-label>
+            <input matInput type="text" #direccion="ngModel" [(ngModel)]="clienteSeleccion.direccion" name="direccion" id="direccion" autocomplete="off">
+          </mat-form-field>
+
+
+          </ng-container>
+
+          <ng-template #verRuc>
+            <mat-form-field color="warn" class="example-form-field"
+            style="margin-top: 10px;    width: 185%;">
+              <mat-label>Razón social</mat-label>
+              <input  matInput type="text" #nombres="ngModel" [(ngModel)]="clienteSeleccion.nombres" name="nombres" autocomplete="off">
+            </mat-form-field>
+             {{estadoEmpresa}}
+             <mat-form-field color="warn" class="example-form-field"
+            style="display: none;">
+            <mat-label>Apellidos</mat-label>
+            <input  matInput type="text" #apellidos="ngModel" [(ngModel)]="clienteSeleccion.apellidos" name="apellidos" autocomplete="off">
+          </mat-form-field>
+
+          <mat-form-field color="warn" class="example-form-field"
+          style="margin-top: 10px;    width: 185%;">
             <mat-label>Dirección</mat-label>
             <input matInput type="text" #direccion="ngModel" [(ngModel)]="clienteSeleccion.direccion" name="direccion" autocomplete="off">
           </mat-form-field>
+          </ng-template>
           <br>
           <mat-form-field color="warn" class="example-form-field"
-          style="margin-top: 10px;width: 45%;">
+          style="margin-top: 10px;    width: 85%;">
             <mat-label>Telefono</mat-label>
             <input matInput type="text" #telefono="ngModel" [(ngModel)]="clienteSeleccion.telefono" name="telefono" autocomplete="off">
           </mat-form-field>
           <mat-form-field color="warn" class="example-form-field"
-          style="margin-top: 10px;width:50%;margin-left: 20px;">
+          style="margin-top: 10px;width: 45%;left: 495px;
+          position: absolute;">
             <mat-label>Celular</mat-label>
             <input matInput type="text" #celular="ngModel" [(ngModel)]="clienteSeleccion.celular" name="celular" autocomplete="off">
           </mat-form-field>
