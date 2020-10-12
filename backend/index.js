@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -17,16 +18,17 @@ const myConnection = require('express-myconnection')
 
 //Settings
 require('./config/passport')(passport)
-app.set('port', process.env.PORT || 80);
 
+app.set('port',  80); 
+//process.env.PORT
 //Middlewares
 app.use(morgan('dev'));
 app.use(myConnection(mysql, {
-    host:'localhost',
-    user:'root',
-    password:'mysql',
-    port:'3306',
-    database:'kemaytec_mydb'
+    host:process.env.HOST,
+    user:process.env.USER,
+    password:process.env.PASS,
+    port:process.env.PORT,
+    database:process.env.DATABASE
 },'single'))
 app.use(passport.initialize());
 app.use(express.json());

@@ -3,7 +3,14 @@ Proyecto Kemay gestión y control de sus usuarios, incluyendo modulo inventario,
 
 # How to get Started!
 
-To run the app, clone it to your computer and install dependencies
+#To run the app, clone it to your computer and install dependencies
 <code>npm install</code> 
 start application
 <code>npm run dev</code>
+#Variables de entorno
+
+HOST=localhost
+USER=root
+PASS=mysql
+PORT=3306
+DATABASE=kemaytec_mydb
