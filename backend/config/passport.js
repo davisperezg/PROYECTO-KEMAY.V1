@@ -5,11 +5,11 @@ const extractJWT = require('passport-jwt').ExtractJwt
 const mysql = require('mysql')
 //const dbconfig = require('../database')
 const connection = mysql.createConnection({
-    host:'localhost',
-    user:'root',
-    password:'mysql',
-    port:'3306',
-    database:'kemaytec_mydb'
+    host:process.env.HOST,
+    user:process.env.USER,
+    password:process.env.PASS,
+    port:process.env.PORT,
+    database:process.env.DATABASE
 })
 
 //connection.query('USE '+dbconfig.database);
