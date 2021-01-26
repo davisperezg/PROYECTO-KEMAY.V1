@@ -1,9 +1,15 @@
-# kemaytech
+# PROYECTO KEMAYTECH.V1
 Proyecto Kemay gestión y control de sus usuarios, incluyendo modulo inventario, control de usuarios, gestión y creación de proformas, gestión de productos y/o servicios, consultas, reportes. Lenguaje utilizado javascript en el backend con node y express, base de datos mysql. En el frontend usado por Angular consumiendo APIs REST
 
-# How to get Started!
+# Herramientas utilizadas
+* MYSQL
+* ANGULAR
+* NODE
+* EXPRESS
 
-To run the app, clone it to your computer and install dependencies
+# PARA INICIAR!
+
+Para ejecutar la aplicación, clonarlo en su computadora e instalar dependencias
 <code>npm install</code> 
-start application
+iniciar la aplicación
 <code>npm run dev</code>
