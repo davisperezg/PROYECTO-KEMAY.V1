@@ -7,9 +7,9 @@ Proyecto Kemay gestión y control de sus usuarios, incluyendo modulo inventario,
 * NODE
 * EXPRESS
 
-# PARA INICIAR!
+# PARA INICIAR BACKEND!
 
-Para ejecutar la aplicación, clonarlo en su computadora e instalar dependencias
+To run the application, clone it on your computer and install dependencies
 <code>npm install</code> 
-iniciar la aplicación
+start the app
 <code>npm run dev</code>
